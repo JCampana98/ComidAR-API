@@ -20,7 +20,7 @@
     <ul th:fragment="sidebar" class="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/}">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-hamburger"></i>
         </div>
@@ -32,10 +32,31 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" th:href="@{/}">
           <i class="fas fa-fw fa-home"></i>
           <span>Home</span></a>
       </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+      
+      <li sec:authorize="isAuthenticated()" class="nav-item">
+			<a class="nav-link collapsed" href="#"
+			data-toggle="collapse" data-target="#collapseAdministration"
+			aria-expanded="true" aria-controls="collapseAdministration"> <i
+				class="fas fa-fw fa-cog"></i> <span>Administración</span>
+			</a>
+			<div id="collapseAdministration" class="collapse" aria-labelledby="headingAdministration"
+				data-parent="#accordionSidebar">
+				<div class="bg-white py-2 collapse-inner rounded">
+					<h6 class="collapse-header">Administración:</h6>
+					<a class="collapse-item" th:href="@{/admin/category/list}">Categorías</a> 
+					<a class="collapse-item" th:href="@{/admin/restaurant/list}">Restaurantes</a>
+					<a class="collapse-item" th:href="@{/admin/dish/list}">Platos</a>
+					<a class="collapse-item" th:href="@{/admin/paymentmethod/list}">Métodos de Pago</a>
+				</div>
+			</div>
+		</li>
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">

@@ -56,11 +56,9 @@ public class Restaurant implements Serializable{
 	@Column(name = "EMAIL")
 	private String email;
 
-	@NotNull
 	@Column(name = "CREATION_DATE")
 	private Date creationDate;
 
-	@NotNull
 	@Column(name = "LAST_UPDATE_DATE")
 	private Date lastUpdateDate;
 }

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout/layout :: head" th:with="title='New Restaurant'">
+</head>
+<body class="bg-gradient-primary">
+
+	<div class="container">
+
+		<!-- Outer Row -->
+		<div class="row justify-content-center">
+
+			<div class="col-xl-10 col-lg-12 col-md-9">
+
+				<div class="card o-hidden border-0 shadow-lg my-5">
+					<div class="card-body p-0">
+						<!-- Nested Row within Card Body -->
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="p-5">
+									<h1 class="h3 mb-4 text-gray-800">Crear Nuevo Restaurante</h1>
+									<form th:object="${restaurant}" class="user" name="form" th:action="@{/admin/restaurant/new}" action="/admin/restaurant/new" method="POST">
+										<div class="form-group row" th:classappend="${#fields.hasErrors('name')} ? 'error'">						    
+							                <div class="col-sm-12 mb-3 mb-sm-0">
+											    <label for="name">Nombre</label>
+											    <input type="text" class="form-control form-control-user" th:field="*{name}" placeholder="Ingrese el nombre del restaurante">
+											    <span class="help-inline" th:errors="*{name}">[error]</span>
+										    </div>
+										</div>
+										<div class="form-group row">
+										    <div class="col-sm-12 mb-3 mb-sm-0">
+											    <label for="description">Descripción</label>
+    											<textarea class="form-control" id="description" th:field="*{description}" rows="3" placeholder="Ingrese una breve descripción del restaurante..."></textarea>
+												<span class="help-inline" th:errors="*{description}">[error]</span>
+											</div>
+										</div>
+										<div class="form-group row">
+											<div class="col-sm-12 mb-3 mb-sm-0">
+											    <label for="direction">Dirección</label>
+											    <input type="text" class="form-control form-control-user" th:field="*{direction}" placeholder="Ingrese la dirección">
+												<span class="help-inline" th:errors="*{direction}">[error]</span>
+											</div>
+										</div>
+										<div class="form-group row">
+											<div class="col-sm-12 mb-3 mb-sm-0">
+											    <label for="telephone">Teléfono</label>
+											    <input type="text" class="form-control form-control-user" th:field="*{telephone}" placeholder="Ingrese su genero">
+												<span class="help-inline" th:errors="*{telephone}">[error]</span>
+											</div>
+										</div>
+										<div class="form-group row">
+											<div class="col-sm-12 mb-3 mb-sm-0">
+											    <label for="email">Email</label>
+											    <input type="text" class="form-control form-control-user" th:field="*{email}" placeholder="Ingrese su nacionalidad">
+												<span class="help-inline" th:errors="*{email}">[error]</span>
+											</div>
+										</div>
+										<input type="submit" id="create" value="Create" class="btn btn-success btn-user btn-block" />
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div th:replace="layout/layout :: js">
+		
+	</div>
+	<!-- JQuery UI plugins -->
+	<script src="/vendor/jquery-ui/jquery-ui.min.js"></script>
+</body>
+</html>

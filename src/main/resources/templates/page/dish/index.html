@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout/layout :: head" th:with="title='Dish'">
+<meta charset="UTF-8">
+</head>
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<!-- Sidebar -->
+		<ul th:replace="layout/layout :: sidebar"></ul>
+		<!-- End of Sidebar -->
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<!-- Topbar -->
+				<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"></nav>
+				<!-- End of Topbar -->
+
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+		          	<!-- Page Heading -->
+		          	<h1 class="h3 mb-4 text-gray-800">Platos</h1>
+					<!-- DataTales for Role -->
+					<div class="card shadow mb-4">
+						<div class="card-header py-3">
+							<a th:href="@{/admin/dish/new}" class="btn btn-success btn-icon-split float-right">
+			                    <span class="icon text-white-50">
+			                      	<i class="fas fa-user-plus"></i>
+			                    </span>
+		                    	<span class="text">Crear Nuevo Plato</span>
+		                	</a>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+									<thead class="border-bottom-primary">
+										<tr>
+											<th>#</th>
+											<th>Nombre</th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="dish : ${dishList}">
+											<th th:text="${dish.dishId}"></th>
+											<th th:text="${dish.name}"></th>
+											<th>
+												<div class="dropdown mb-4">
+							                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							                    Acciones
+							                    </button>
+								                    <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
+								                      	<a class="dropdown-item" th:href="@{/admin/dish/delete(id=${dish.dishId})}"><i class="fas fa-user-times"></i> Borrar</a>
+								                      	<a class="dropdown-item" th:href="@{/admin/dish/update(id=${dish.dishId})}"><i class="fas fa-user-edit"></i> Editar</a>
+								                    </div>
+							                  	</div>
+						                  	</th>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</div>
+			<!-- End of Main Content -->
+			<!-- Footer -->
+			<footer th:replace="layout/layout :: footer"></footer>
+			<!-- End of Footer -->
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+	<!-- Scroll to Top Button-->
+	<a th:replace="layout/layout :: scroll-button"></a>
+
+	<div th:include="layout/layout :: js">
+	</div>
+	<!-- Page level plugins -->
+	<script src="vendor/datatables/jquery.dataTables.min.js"></script>
+	<script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+</body>
