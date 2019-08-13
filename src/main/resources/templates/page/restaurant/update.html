@@ -54,7 +54,7 @@
 												<span class="help-inline" th:errors="*{email}">[error]</span>
 											</div>
 										</div>
-										<input type="submit" id="update" value="Update" class="btn btn-success btn-user btn-block" />
+										<input type="submit" id="update" value="update" class="btn btn-success btn-user btn-block" />
 									</form>
 								</div>
 							</div>
@@ -72,6 +72,6 @@
 		
 	</div>
 	<!-- JQuery UI plugins -->
-	<script src="/vendor/jquery-ui/jquery-ui.min.js"></script>
+	<script th:src="@{/vendor/jquery-ui/jquery-ui.min.js}"></script>
 </body>
 </html>

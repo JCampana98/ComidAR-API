@@ -28,6 +28,7 @@ import ar.edu.um.comidar.services.RestaurantService;
 public class RestaurantController {
 	
 	private final static Logger logger = LoggerFactory.getLogger(RestaurantController.class);
+	
 	@Autowired
 	private RestaurantService restaurantService;
 
@@ -42,7 +43,6 @@ public class RestaurantController {
 		
 		return "page/restaurant/index";
 	}
-	
 	
 	@GetMapping("/new")
 	public String newRestaurant(Model model){
