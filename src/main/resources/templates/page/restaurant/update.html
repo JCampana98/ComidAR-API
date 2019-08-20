@@ -43,19 +43,19 @@
 										<div class="form-group row">
 											<div class="col-sm-12 mb-3 mb-sm-0">
 											    <label for="telephone">Teléfono</label>
-											    <input type="text" class="form-control form-control-user" th:field="*{telephone}" placeholder="Ingrese su genero">
+											    <input type="text" class="form-control form-control-user" th:field="*{telephone}" placeholder="Ingrese su teléfono">
 												<span class="help-inline" th:errors="*{telephone}">[error]</span>
 											</div>
 										</div>
 										<div class="form-group row">
 											<div class="col-sm-12 mb-3 mb-sm-0">
 											    <label for="email">Email</label>
-											    <input type="text" class="form-control form-control-user" th:field="*{email}" placeholder="Ingrese su nacionalidad">
+											    <input type="text" class="form-control form-control-user" th:field="*{email}" placeholder="Ingrese su email">
 												<span class="help-inline" th:errors="*{email}">[error]</span>
 											</div>
 										</div>
 										<input type="hidden" th:field="*{restaurantId}">
-										<input type="submit" id="update" value="Update" class="btn btn-success btn-user btn-block" />
+										<input type="submit" id="update" value="Actualizar" class="btn btn-success btn-user btn-block" />
 									</form>
 								</div>
 							</div>

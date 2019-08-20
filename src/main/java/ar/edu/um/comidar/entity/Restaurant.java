@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -56,6 +55,9 @@ public class Restaurant implements Serializable{
 	@Email
 	@Column(name = "EMAIL")
 	private String email;
+	
+	@Column(name = "IMAGE_URL")
+	private String imageUrl;
 
 	@Column(name = "CREATION_DATE")
 	private Date creationDate;

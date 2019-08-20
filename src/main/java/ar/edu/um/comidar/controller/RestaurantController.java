@@ -1,5 +1,7 @@
 package ar.edu.um.comidar.controller;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -54,8 +56,12 @@ public class RestaurantController {
 	
 	@PostMapping("/new")
 	public String newRestaurant(@Valid @ModelAttribute("restaurant") Restaurant restaurant, BindingResult result, Model model, final RedirectAttributes redirectAttributes) {
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		
 		if(!result.hasErrors()) {
+			restaurant.setCreationDate(timestamp);
+			restaurant.setLastUpdateDate(timestamp);
 			restaurantService.create(restaurant);
 			redirectAttributes.addFlashAttribute("message","Actualizacion realizada");
 			redirectAttributes.addFlashAttribute("css","alert-success");
@@ -78,8 +84,12 @@ public class RestaurantController {
 	
 	@PostMapping("/update")
 	public String updateRestaurant(@Valid @ModelAttribute("restaurant") Restaurant restaurant, BindingResult result, Model model, final RedirectAttributes redirectAttributes) {
-		
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        
 		if(!result.hasErrors()) {
+			restaurant.setCreationDate(restaurantService.findById(restaurant.getRestaurantId()).getCreationDate());
+			restaurant.setLastUpdateDate(timestamp);
 			restaurantService.update(restaurant);
 			redirectAttributes.addFlashAttribute("message","Actualizacion realizada");
 			redirectAttributes.addFlashAttribute("css","alert-success");
