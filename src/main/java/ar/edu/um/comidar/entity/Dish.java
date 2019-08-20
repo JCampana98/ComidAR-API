@@ -31,11 +31,7 @@ public class Dish implements Serializable{
 	private static final long serialVersionUID = -2397554997009542760L;
 
 	@Id
-	@GeneratedValue(generator = "dish_gen")
-	@SequenceGenerator(
-			name = "dish_gen",
-			sequenceName = "dish_seq",
-			initialValue = 1)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="DISH_ID")
 	private Long dishId;
 	

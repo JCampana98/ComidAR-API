@@ -32,11 +32,7 @@ public class Restaurant implements Serializable{
 	private static final long serialVersionUID = 2914412949573579783L;
 
 	@Id
-	@GeneratedValue(generator = "restaurant_gen")
-	@SequenceGenerator(
-			name = "restaurant_gen",
-			sequenceName = "restaurant_seq",
-			initialValue = 1)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="RESTAURANT_ID")
 	private Long restaurantId;
 
