@@ -17,8 +17,8 @@
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="p-5">
-									<h1 class="h3 mb-4 text-gray-800">Crear Nuevo Restaurante</h1>
-									<form th:object="${restaurant}" class="user" name="form" th:action="@{/admin/restaurant/update}" action="/admin/restaurant/update" method="POST">
+									<h1 class="h3 mb-4 text-gray-800">Crear Nueva Categoría</h1>
+									<form th:object="${restaurant}" class="user" name="form" th:action="@{/admin/restaurant/new}" action="/admin/restaurant/new" method="POST">
 										<div class="form-group row" th:classappend="${#fields.hasErrors('name')} ? 'error'">						    
 							                <div class="col-sm-12 mb-3 mb-sm-0">
 											    <label for="name">Nombre</label>
@@ -54,8 +54,7 @@
 												<span class="help-inline" th:errors="*{email}">[error]</span>
 											</div>
 										</div>
-										<input type="hidden" th:field="*{restaurantId}">
-										<input type="submit" id="update" value="Update" class="btn btn-success btn-user btn-block" />
+										<input type="submit" id="create" value="Create" class="btn btn-success btn-user btn-block" />
 									</form>
 								</div>
 							</div>

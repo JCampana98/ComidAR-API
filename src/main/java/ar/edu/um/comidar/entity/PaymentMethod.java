@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -29,7 +30,11 @@ public class PaymentMethod implements Serializable{
 	private static final long serialVersionUID = 1688183184176746662L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(generator = "payment_method_gen")
+	@SequenceGenerator(
+			name = "payment_method_gen",
+			sequenceName = "payment_method_seq",
+			initialValue = 1)
 	@Column(name="PAYMENT_METHOD_ID")
 	private Long paymentMethodId;
 

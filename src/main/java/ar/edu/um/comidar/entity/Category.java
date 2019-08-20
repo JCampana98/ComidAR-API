@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -29,7 +30,11 @@ public class Category implements Serializable{
 	private static final long serialVersionUID = -7789781476530056964L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(generator = "category_gen")
+	@SequenceGenerator(
+			name = "category_gen",
+			sequenceName = "category_seq",
+			initialValue = 1)
 	@Column(name="CATEGORY_ID")
 	private Long categoryId;
 
