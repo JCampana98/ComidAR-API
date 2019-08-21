@@ -75,7 +75,9 @@ public class RestaurantController {
 			restaurant.setLastUpdateDate(timestamp);
 			restaurantService.create(restaurant);
 			restaurant.setImageUrl("/restaurants/" + restaurant.getRestaurantId() + "." + restaurant.getRestaurantImage().getExtension());
+			imageService.deleteImage(restaurant.getImageUrl());
 			imageService.uploadImage(restaurant.getRestaurantImage().getFile().getInputStream(), restaurant.getImageUrl());
+			restaurant.setRestaurantId(restaurant.getRestaurantId());
 			restaurantService.update(restaurant);
 			redirectAttributes.addFlashAttribute("message","Actualizacion realizada");
 			redirectAttributes.addFlashAttribute("css","alert-success");
