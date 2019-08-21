@@ -1,7 +1,7 @@
 package ar.edu.um.comidar.controller;
 
+import java.io.IOException;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -22,18 +22,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.dropbox.core.DbxException;
+import com.dropbox.core.v2.files.UploadErrorException;
+
 import ar.edu.um.comidar.entity.Restaurant;
 import ar.edu.um.comidar.services.RestaurantService;
+import ar.edu.um.comidar.services.ImageService;
+import ar.edu.um.comidar.services.RestaurantSearchImpl;
 
 @Controller
 @RequestMapping("/admin/restaurant")
 public class RestaurantController {
 	
 	private final static Logger logger = LoggerFactory.getLogger(RestaurantController.class);
-	
+
 	@Autowired
 	private RestaurantService restaurantService;
+	
+	@Autowired
+	private RestaurantSearchImpl restaurantSearchService;
 
+	@Autowired
+	private ImageService imageService;
+	
 	public RestaurantController() {
 		super();
 	}
@@ -55,14 +66,16 @@ public class RestaurantController {
 	}
 	
 	@PostMapping("/new")
-	public String newRestaurant(@Valid @ModelAttribute("restaurant") Restaurant restaurant, BindingResult result, Model model, final RedirectAttributes redirectAttributes) {
+	public String newRestaurant(@Valid @ModelAttribute("restaurant") Restaurant restaurant, BindingResult result, Model model, final RedirectAttributes redirectAttributes) throws UploadErrorException, DbxException, IOException {
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		
 		if(!result.hasErrors()) {
+			restaurant.setImageUrl("/restaurants/" + restaurant.getRestaurantId() + "." + restaurant.getRestaurantImage().getExtension());
 			restaurant.setCreationDate(timestamp);
 			restaurant.setLastUpdateDate(timestamp);
 			restaurantService.create(restaurant);
+			imageService.uploadImage(restaurant.getRestaurantImage().getFile().getInputStream(), restaurant.getImageUrl());
 			redirectAttributes.addFlashAttribute("message","Actualizacion realizada");
 			redirectAttributes.addFlashAttribute("css","alert-success");
 			return "redirect:/admin/restaurant/list";
@@ -83,13 +96,16 @@ public class RestaurantController {
 	}
 	
 	@PostMapping("/update")
-	public String updateRestaurant(@Valid @ModelAttribute("restaurant") Restaurant restaurant, BindingResult result, Model model, final RedirectAttributes redirectAttributes) {
+	public String updateRestaurant(@Valid @ModelAttribute("restaurant") Restaurant restaurant, BindingResult result, Model model, final RedirectAttributes redirectAttributes) throws UploadErrorException, DbxException, IOException {
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         
 		if(!result.hasErrors()) {
+			restaurant.setImageUrl("/restaurants/" + restaurant.getRestaurantId() + "." + restaurant.getRestaurantImage().getExtension());
 			restaurant.setCreationDate(restaurantService.findById(restaurant.getRestaurantId()).getCreationDate());
 			restaurant.setLastUpdateDate(timestamp);
+			imageService.deleteImage(restaurant.getImageUrl());
+			imageService.uploadImage(restaurant.getRestaurantImage().getFile().getInputStream(), restaurant.getImageUrl());
 			restaurantService.update(restaurant);
 			redirectAttributes.addFlashAttribute("message","Actualizacion realizada");
 			redirectAttributes.addFlashAttribute("css","alert-success");
@@ -115,6 +131,10 @@ public class RestaurantController {
 	@GetMapping("/list/all")
 	public ResponseEntity<List<Restaurant>> sendRestaurantList(){
 		return new ResponseEntity<>(restaurantService.findAll(),HttpStatus.OK);
+	}
+	@GetMapping("/list/search")
+	public ResponseEntity<List<Restaurant>> sendRestaurantListSearch(){
+		return new ResponseEntity<>(restaurantSearchService.searchByQuery("mick"),HttpStatus.OK);
 	}
 	
 }
