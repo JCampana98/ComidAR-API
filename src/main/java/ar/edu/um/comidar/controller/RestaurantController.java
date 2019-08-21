@@ -74,8 +74,16 @@ public class RestaurantController {
 			restaurant.setCreationDate(timestamp);
 			restaurant.setLastUpdateDate(timestamp);
 			restaurantService.create(restaurant);
+			try{
+				imageService.deleteImage(restaurant.getImageUrl());
+			} catch (UploadErrorException  e) {
+				
+			} catch (DbxException  e) {
+				
+			} catch (IOException  e) {
+				
+			}
 			restaurant.setImageUrl("/restaurants/" + restaurant.getRestaurantId() + "." + restaurant.getRestaurantImage().getExtension());
-			imageService.deleteImage(restaurant.getImageUrl());
 			imageService.uploadImage(restaurant.getRestaurantImage().getFile().getInputStream(), restaurant.getImageUrl());
 			restaurant.setRestaurantId(restaurant.getRestaurantId());
 			restaurantService.update(restaurant);
