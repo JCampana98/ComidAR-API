@@ -74,15 +74,6 @@ public class RestaurantController {
 			restaurant.setCreationDate(timestamp);
 			restaurant.setLastUpdateDate(timestamp);
 			restaurantService.create(restaurant);
-			try{
-				imageService.deleteImage(restaurant.getImageUrl());
-			} catch (UploadErrorException  e) {
-				
-			} catch (DbxException  e) {
-				
-			} catch (IOException  e) {
-				
-			}
 			restaurant.setImageUrl("/restaurants/" + restaurant.getRestaurantId() + "." + restaurant.getRestaurantImage().getExtension());
 			imageService.uploadImage(restaurant.getRestaurantImage().getFile().getInputStream(), restaurant.getImageUrl());
 			restaurant.setRestaurantId(restaurant.getRestaurantId());
@@ -133,6 +124,7 @@ public class RestaurantController {
 	@GetMapping("/delete")
 	public String deleteRestaurant(@RequestParam(value="id",required=true) Long id, final RedirectAttributes redirectAttributes) throws UploadErrorException, DbxException, IOException{
 		Restaurant restaurant = restaurantService.findById(id);
+		imageService.deleteImage(restaurant.getImageUrl());
 		restaurantService.remove(restaurant);
 		redirectAttributes.addFlashAttribute("message","Se ha eliminado el usuario exitosamente");
 		redirectAttributes.addFlashAttribute("css","alert-success");
