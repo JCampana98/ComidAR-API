@@ -76,7 +76,9 @@ public class Restaurant implements Serializable{
 	
 	@Column(name = "IMAGE_URL")
 	private String imageUrl;
-
+	
+	@Transient
+	private String imageTemporaryUrl;
 
 	@JsonIgnore
 	@Column(name = "CREATION_DATE")

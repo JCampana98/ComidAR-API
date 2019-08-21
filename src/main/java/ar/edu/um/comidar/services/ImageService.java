@@ -28,14 +28,14 @@ public class ImageService {
 	}
 	
 	public void deleteImage(String url) throws UploadErrorException, DbxException, IOException {
-		DeleteResult metadata = client.files()
+			DeleteResult metadata = client.files()
 				.deleteV2(url);
 	}
 	
 	public String getImageURL(String url) throws UploadErrorException, DbxException, IOException {
-		GetTemporaryLinkResult link = client.files()
-			    	.getTemporaryLink(url);
-		return link.toString();
+		String link = client.files()
+			    	.getTemporaryLink(url).getLink();
+		return link;
 	    
 	}
 
