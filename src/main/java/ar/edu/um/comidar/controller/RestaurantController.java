@@ -125,7 +125,9 @@ public class RestaurantController {
 	@GetMapping("/delete")
 	public String deleteRestaurant(@RequestParam(value="id",required=true) Long id, final RedirectAttributes redirectAttributes) throws UploadErrorException, DbxException, IOException{
 		Restaurant restaurant = restaurantService.findById(id);
-		imageService.deleteImage(restaurant.getImageUrl());
+		if(!restaurant.getImageUrl().isEmpty()) {
+			imageService.deleteImage(restaurant.getImageUrl());	
+		}
 		restaurantService.remove(restaurant);
 		redirectAttributes.addFlashAttribute("message","Se ha eliminado el usuario exitosamente");
 		redirectAttributes.addFlashAttribute("css","alert-success");
