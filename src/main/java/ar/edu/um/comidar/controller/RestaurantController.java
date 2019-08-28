@@ -146,7 +146,23 @@ public class RestaurantController {
 		}
 		return new ResponseEntity<>(restaurantList,HttpStatus.OK);
 	}
+	
+	@GetMapping("/list/all/{id}")
+	public ResponseEntity<List<Restaurant>> sendFilteredRestaurantList(@RequestParam Long id) throws UploadErrorException, DbxException, IOException{
+		List<Restaurant> restaurantList = restaurantService.findAll();
+		for (Restaurant restaurant : restaurantList) {
+			if(restaurant.getCategoryList().contains(id)) {
+				restaurantList.remove(restaurant);
+			} else {
+				restaurant.setImageTemporaryUrl(imageService.getImageURL(restaurant.getImageUrl()));
+			}
+		}
+		return new ResponseEntity<>(restaurantList,HttpStatus.OK);
+	}
+	
+	
 	//TODO Elasticsearch for restaurant
+	
 	/*@GetMapping("/list/search")
 	public ResponseEntity<List<Restaurant>> sendRestaurantListSearch(){
 		return new ResponseEntity<>(restaurantSearchService.searchByQuery("mick"),HttpStatus.OK);
