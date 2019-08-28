@@ -147,7 +147,7 @@ public class RestaurantController {
 		return new ResponseEntity<>(restaurantList,HttpStatus.OK);
 	}
 	
-	@GetMapping("/list/all/{id}")
+	/*@GetMapping("/list/all/{id}")
 	public ResponseEntity<List<Restaurant>> sendFilteredRestaurantList(@RequestParam Long id) throws UploadErrorException, DbxException, IOException{
 		List<Restaurant> restaurantList = restaurantService.findAll();
 		for (Restaurant restaurant : restaurantList) {
@@ -158,7 +158,7 @@ public class RestaurantController {
 			}
 		}
 		return new ResponseEntity<>(restaurantList,HttpStatus.OK);
-	}
+	}*/
 	
 	
 	//TODO Elasticsearch for restaurant
