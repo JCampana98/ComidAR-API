@@ -25,10 +25,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.v2.files.UploadErrorException;
 
+import ar.edu.um.comidar.entity.Category;
 import ar.edu.um.comidar.entity.Restaurant;
 import ar.edu.um.comidar.services.RestaurantService;
+import ar.edu.um.comidar.services.CategoryService;
 import ar.edu.um.comidar.services.ImageService;
-import ar.edu.um.comidar.services.RestaurantSearchImpl;
 
 @Controller
 @RequestMapping("/admin/restaurant")
@@ -40,7 +41,7 @@ public class RestaurantController {
 	private RestaurantService restaurantService;
 	
 	@Autowired
-	private RestaurantSearchImpl restaurantSearchService;
+	private CategoryService categoryService;
 
 	@Autowired
 	private ImageService imageService;
@@ -60,7 +61,9 @@ public class RestaurantController {
 	@GetMapping("/new")
 	public String newRestaurant(Model model){
 		Restaurant restaurant = new Restaurant();
+		List<Category> categoryList = categoryService.findAll();
 		model.addAttribute("restaurant", restaurant);
+		model.addAttribute("categoryList",categoryList);
 		
 		return "page/restaurant/new";
 	}
@@ -75,9 +78,7 @@ public class RestaurantController {
 			restaurant.setLastUpdateDate(timestamp);
 			restaurantService.create(restaurant);
 			restaurant.setImageUrl("/restaurants/" + restaurant.getRestaurantId() + "." + restaurant.getRestaurantImage().getExtension());
-			if(!restaurant.getRestaurantImage().getFile().isEmpty()) {
-				imageService.uploadImage(restaurant.getRestaurantImage().getFile().getInputStream(), restaurant.getImageUrl());
-			}
+			imageService.uploadImage(restaurant.getRestaurantImage().getFile().getInputStream(), restaurant.getImageUrl());
 			restaurant.setRestaurantId(restaurant.getRestaurantId());
 			restaurantService.update(restaurant);
 			redirectAttributes.addFlashAttribute("message","Actualizacion realizada");
@@ -95,6 +96,8 @@ public class RestaurantController {
 	@GetMapping("/update")
 	public String updateRestaurant(@RequestParam(value="id",required=true) Long id, Model model){
 		model.addAttribute("restaurant",restaurantService.findById(id));
+		List<Category> categoryList = categoryService.findAll();
+		model.addAttribute("categoryList",categoryList);
 		
 		return "page/restaurant/update";
 	}
@@ -143,9 +146,10 @@ public class RestaurantController {
 		}
 		return new ResponseEntity<>(restaurantList,HttpStatus.OK);
 	}
-	@GetMapping("/list/search")
+	//TODO Elasticsearch for restaurant
+	/*@GetMapping("/list/search")
 	public ResponseEntity<List<Restaurant>> sendRestaurantListSearch(){
 		return new ResponseEntity<>(restaurantSearchService.searchByQuery("mick"),HttpStatus.OK);
-	}
+	}*/
 	
 }

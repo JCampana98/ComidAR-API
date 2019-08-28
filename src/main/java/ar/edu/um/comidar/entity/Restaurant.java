@@ -2,12 +2,16 @@ package ar.edu.um.comidar.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
@@ -19,7 +23,6 @@ import org.hibernate.search.annotations.TermVector;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import ar.edu.um.comidar.services.ImageService;
 import ar.edu.um.comidar.utils.FileContainer;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -70,6 +73,9 @@ public class Restaurant implements Serializable{
 	@Column(name = "EMAIL")
 	private String email;
 	
+	@OneToMany
+	private List<Category> categoryList;
+	
 	@Transient
 	@JsonIgnore
 	private FileContainer restaurantImage;
@@ -83,7 +89,6 @@ public class Restaurant implements Serializable{
 	@JsonIgnore
 	@Column(name = "CREATION_DATE")
 	private Date creationDate;
-
 
 	@JsonIgnore
 	@Column(name = "LAST_UPDATE_DATE")

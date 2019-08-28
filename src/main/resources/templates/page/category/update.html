@@ -22,10 +22,11 @@
 										<div class="form-group row" th:classappend="${#fields.hasErrors('name')} ? 'error'">						    
 							                <div class="col-sm-12 mb-3 mb-sm-0">
 											    <label for="name">Nombre</label>
-											    <input type="text" class="form-control form-control-user" th:field="*{name}" placeholder="Ingrese el nombre de la categoría">
+											    <input type="text" class="form-control form-control-user" th:field="*{name}" placeholder="Ingrese el nombre del restaurante">
 											    <span class="help-inline" th:errors="*{name}">[error]</span>
 										    </div>
-										</div>
+										</div> <br>
+										<input type="hidden" th:field="*{categoryId}">
 										<input type="submit" id="create" value="Create" class="btn btn-success btn-user btn-block" />
 									</form>
 								</div>
