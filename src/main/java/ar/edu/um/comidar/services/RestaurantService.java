@@ -41,4 +41,5 @@ public class RestaurantService extends ServiceImplement<Restaurant, Long> {
 	public List<Restaurant> findAll() {
 		return super.findAll();
 	}
+
 }

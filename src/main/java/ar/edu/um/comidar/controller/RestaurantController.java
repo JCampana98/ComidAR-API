@@ -2,6 +2,7 @@ package ar.edu.um.comidar.controller;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -147,18 +148,23 @@ public class RestaurantController {
 		return new ResponseEntity<>(restaurantList,HttpStatus.OK);
 	}
 	
-	/*@GetMapping("/list/all/{id}")
-	public ResponseEntity<List<Restaurant>> sendFilteredRestaurantList(@RequestParam Long id) throws UploadErrorException, DbxException, IOException{
+	@GetMapping("/list/search/")
+	public ResponseEntity<List<Restaurant>> sendFilteredRestaurantList(@RequestParam String id) throws UploadErrorException, DbxException, IOException{
+		
 		List<Restaurant> restaurantList = restaurantService.findAll();
+		List<Restaurant> toRemove = new ArrayList<>();
+		Category categoryAux = categoryService.findById(Long.valueOf(id));
 		for (Restaurant restaurant : restaurantList) {
-			if(restaurant.getCategoryList().contains(id)) {
-				restaurantList.remove(restaurant);
+			if(restaurant.getCategoryList().contains(categoryAux)) {
+				restaurant.setImageTemporaryUrl(imageService.getImageURL(restaurant.getImageUrl()));	
 			} else {
-				restaurant.setImageTemporaryUrl(imageService.getImageURL(restaurant.getImageUrl()));
+				toRemove.add(restaurant);
 			}
+			
 		}
+		restaurantList.removeAll(toRemove);
 		return new ResponseEntity<>(restaurantList,HttpStatus.OK);
-	}*/
+	}
 	
 	
 	//TODO Elasticsearch for restaurant
