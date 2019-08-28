@@ -148,8 +148,8 @@ public class RestaurantController {
 		return new ResponseEntity<>(restaurantList,HttpStatus.OK);
 	}
 	
-	@GetMapping("/list/search/")
-	public ResponseEntity<List<Restaurant>> sendFilteredRestaurantList(@RequestParam String id) throws UploadErrorException, DbxException, IOException{
+	@GetMapping("/list/search")
+	public ResponseEntity<List<Restaurant>> sendFilteredRestaurantList(@RequestParam(name="categoryId") String id) throws UploadErrorException, DbxException, IOException{
 		
 		List<Restaurant> restaurantList = restaurantService.findAll();
 		List<Restaurant> toRemove = new ArrayList<>();
