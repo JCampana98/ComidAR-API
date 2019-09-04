@@ -109,6 +109,7 @@ public class RestaurantController {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         
 		if(!result.hasErrors()) {
+			restaurant.setImageUrl("/restaurants/" + restaurant.getRestaurantId() + "." + restaurant.getRestaurantImage().getExtension());
 			restaurant.setLastUpdateDate(timestamp);
 			if(!restaurant.getRestaurantImage().getFile().isEmpty()) {
 				imageService.deleteImage(restaurant.getImageUrl());
