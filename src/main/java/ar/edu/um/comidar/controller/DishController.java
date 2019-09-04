@@ -2,6 +2,7 @@ package ar.edu.um.comidar.controller;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -26,6 +27,7 @@ import com.dropbox.core.DbxException;
 import com.dropbox.core.v2.files.UploadErrorException;
 
 import ar.edu.um.comidar.entity.Dish;
+import ar.edu.um.comidar.entity.Restaurant;
 import ar.edu.um.comidar.services.DishService;
 import ar.edu.um.comidar.services.RestaurantService;
 
@@ -121,6 +123,17 @@ public class DishController {
 	@GetMapping("/list/search")
 	public ResponseEntity<List<Dish>> sendDishListByRestaurantId(@RequestParam(name="restaurantId") String id){
 		List<Dish> dishList = dishService.findAll();
+		List<Dish> remove = new ArrayList<>();
+		Restaurant restaurantAux = restaurantService.findById(Long.getLong(id));
+		
+		for (Dish dish : dishList) {
+			if (!dish.getRestaurant().equals(restaurantAux)) {
+				remove.add(dish);
+			}
+		}
+		
+		dishList.removeAll(remove);
+		
 		return new ResponseEntity<>(dishList,HttpStatus.OK);
 	}
 
