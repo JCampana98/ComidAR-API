@@ -41,13 +41,16 @@
 									<thead class="border-bottom-primary">
 										<tr>
 											<th>#</th>
-											<th>Nombre</th></th>
+											<th>Nombre</th>
+											<th>Restaurante</th>
+											<th>Acciones</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr th:each="dish : ${dishList}">
 											<th th:text="${dish.dishId}"></th>
 											<th th:text="${dish.name}"></th>
+											<th th:text="${dish.restaurant.name}"></th>
 											<th>
 												<div class="dropdown mb-4">
 							                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -1,13 +1,16 @@
 package ar.edu.um.comidar.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -43,22 +46,19 @@ public class Dish implements Serializable{
 	private String description;
 
 	@NotNull
-	@Column(name="RESTAURANT_ID")
-	private Long restaurant_id;
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	private Restaurant restaurant;
 
 	@NotNull
 	@Column(name="PRICE")
-	private Double price;
+	private BigDecimal price;
 
-	@NotNull
 	@Column(name="ENABLE")
 	private Boolean enable;
 
-	@NotNull
 	@Column(name="CREATION_DATE")
 	private Date creationDate;
 
-	@NotNull
 	@Column(name="LAST_UPDATE_DATE")
 	private Date lastUpdateDate;
 }
