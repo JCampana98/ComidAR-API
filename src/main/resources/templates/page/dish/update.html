@@ -17,8 +17,8 @@
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="p-5">
-									<h1 class="h3 mb-4 text-gray-800">Crear Nuevo Plato</h1>
-									<form th:object="${dish}" class="user" name="form" th:action="@{/admin/dish/new}" action="/admin/dish/new" method="POST">
+									<h1 class="h3 mb-4 text-gray-800">Actualizar Plato</h1>
+									<form th:object="${dish}" class="user" name="form" th:action="@{/admin/dish/update}" action="/admin/dish/update" method="POST">
 										<div class="form-group row" th:classappend="${#fields.hasErrors('name')} ? 'error'">						    
 							                <div class="col-sm-9 mb-3 mb-sm-0">
 											    <label for="name">Nombre</label>
@@ -47,7 +47,7 @@
 											</div>
 										</div>
 										<input type="hidden" th:field="*{dishId}">
-										<input type="submit" id="create" value="Crear" class="btn btn-success btn-user btn-block" />
+										<input type="submit" id="update" value="Actualizar" class="btn btn-success btn-user btn-block" />
 									</form>
 								</div>
 							</div>

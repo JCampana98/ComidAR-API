@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,6 +48,7 @@ public class Dish implements Serializable{
 	private String description;
 
 	@NotNull
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	private Restaurant restaurant;
 

@@ -124,7 +124,7 @@ public class DishController {
 	public ResponseEntity<List<Dish>> sendDishListByRestaurantId(@RequestParam(name="restaurantId") String id){
 		List<Dish> dishList = dishService.findAll();
 		List<Dish> remove = new ArrayList<>();
-		Restaurant restaurantAux = restaurantService.findById(Long.getLong(id));
+		Restaurant restaurantAux = restaurantService.findById(Long.valueOf(id));
 		
 		for (Dish dish : dishList) {
 			if (!dish.getRestaurant().equals(restaurantAux)) {
