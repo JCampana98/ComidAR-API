@@ -29,6 +29,7 @@ import com.dropbox.core.v2.files.UploadErrorException;
 import ar.edu.um.comidar.entity.Dish;
 import ar.edu.um.comidar.entity.Restaurant;
 import ar.edu.um.comidar.services.DishService;
+import ar.edu.um.comidar.services.ImageService;
 import ar.edu.um.comidar.services.RestaurantService;
 
 @Controller
@@ -42,6 +43,9 @@ public class DishController {
 
 	@Autowired
 	private RestaurantService restaurantService;
+
+	@Autowired
+	private ImageService imageService;
 	
 	public DishController() {
 		super();
@@ -71,6 +75,9 @@ public class DishController {
 			dish.setCreationDate(timestamp);
 			dish.setLastUpdateDate(timestamp);
 			dishService.create(dish);
+			dish.setImageUrl("/dishes/" + dish.getDishId() + "." + dish.getDishImage().getExtension());
+			imageService.uploadImage(dish.getDishImage().getFile().getInputStream(), dish.getImageUrl());
+			dishService.update(dish);
 			redirectAttributes.addFlashAttribute("message","Actualizacion realizada");
 			redirectAttributes.addFlashAttribute("css","alert-success");
 			return "redirect:/admin/dish/list";
@@ -98,6 +105,8 @@ public class DishController {
 		if(!result.hasErrors()) {
 			dish.setLastUpdateDate(timestamp);
 			dishService.update(dish);
+			imageService.deleteImage(dish.getImageUrl());
+			imageService.uploadImage(dish.getDishImage().getFile().getInputStream(), dish.getImageUrl());
 			redirectAttributes.addFlashAttribute("message","Actualizacion realizada");
 			redirectAttributes.addFlashAttribute("css","alert-success");
 			return "redirect:/admin/dish/list";
@@ -117,11 +126,11 @@ public class DishController {
 		redirectAttributes.addFlashAttribute("message","Se ha eliminado el usuario exitosamente");
 		redirectAttributes.addFlashAttribute("css","alert-success");
 		
-		return "redirect:/admin/category/list";
+		return "redirect:/admin/dish/list";
 	}
 	
 	@GetMapping("/list/search")
-	public ResponseEntity<List<Dish>> sendDishListByRestaurantId(@RequestParam(name="restaurantId") String id){
+	public ResponseEntity<List<Dish>> sendDishListByRestaurantId(@RequestParam(name="restaurantId") String id) throws UploadErrorException, DbxException, IOException{
 		List<Dish> dishList = dishService.findAll();
 		List<Dish> remove = new ArrayList<>();
 		Restaurant restaurantAux = restaurantService.findById(Long.valueOf(id));
@@ -129,6 +138,8 @@ public class DishController {
 		for (Dish dish : dishList) {
 			if (!dish.getRestaurant().equals(restaurantAux)) {
 				remove.add(dish);
+			} else {
+				dish.setImageTemporaryUrl(imageService.getImageURL(dish.getImageUrl()));
 			}
 		}
 		

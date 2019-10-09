@@ -26,6 +26,7 @@ import com.dropbox.core.v2.files.UploadErrorException;
 
 import ar.edu.um.comidar.entity.Category;
 import ar.edu.um.comidar.services.CategoryService;
+import ar.edu.um.comidar.services.ImageService;
 
 @Controller
 @RequestMapping("/admin/category")
@@ -35,6 +36,9 @@ public class CategoryController {
 	
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private ImageService imageService;
 
 	public CategoryController() {
 		super();
@@ -61,6 +65,9 @@ public class CategoryController {
 	
 		if(!result.hasErrors()) {
 			categoryService.create(category);
+			category.setImageUrl("/categories/" + category.getCategoryId() + "." + category.getCategoryImage().getExtension());
+			imageService.uploadImage(category.getCategoryImage().getFile().getInputStream(), category.getImageUrl());
+			categoryService.update(category);
 			redirectAttributes.addFlashAttribute("message","Actualizacion realizada");
 			redirectAttributes.addFlashAttribute("css","alert-success");
 			return "redirect:/admin/category/list";
@@ -84,6 +91,8 @@ public class CategoryController {
 
 		if(!result.hasErrors()) {
 			categoryService.update(category);
+			imageService.deleteImage(category.getImageUrl());
+			imageService.uploadImage(category.getCategoryImage().getFile().getInputStream(), category.getImageUrl());
 			redirectAttributes.addFlashAttribute("message","Actualizacion realizada");
 			redirectAttributes.addFlashAttribute("css","alert-success");
 			return "redirect:/admin/category/list";
@@ -109,6 +118,9 @@ public class CategoryController {
 	@GetMapping("/list/all")
 	public ResponseEntity<List<Category>> sendCategoryList(){
 		List<Category> categoryList = categoryService.findAll();
+		for (Category category : categoryList) {
+			category.setImageTemporaryUrl(category.getImageUrl());
+		}
 		return new ResponseEntity<>(categoryList,HttpStatus.OK);
 	}
 }

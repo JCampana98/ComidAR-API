@@ -11,8 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import ar.edu.um.comidar.utils.FileContainer;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,5 +43,15 @@ public class Category implements Serializable{
 	@NotNull
 	@Column(name="NAME")
 	private String name;
+
+	@Transient
+	@JsonIgnore
+	private FileContainer categoryImage;
+
+	@Column(name = "IMAGE_URL")
+	@JsonIgnore
+	private String imageUrl;
 	
+	@Transient
+	private String imageTemporaryUrl;	
 }

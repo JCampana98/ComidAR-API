@@ -79,6 +79,7 @@ public class Restaurant implements Serializable{
 	private FileContainer restaurantImage;
 	
 	@Column(name = "IMAGE_URL")
+	@JsonIgnore
 	private String imageUrl;
 	
 	@Transient

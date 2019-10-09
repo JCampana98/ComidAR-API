@@ -12,10 +12,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import ar.edu.um.comidar.utils.FileContainer;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -60,8 +62,21 @@ public class Dish implements Serializable{
 	private Boolean enable;
 
 	@Column(name="CREATION_DATE")
+	@JsonIgnore
 	private Date creationDate;
 
 	@Column(name="LAST_UPDATE_DATE")
+	@JsonIgnore
 	private Date lastUpdateDate;
+
+	@Transient
+	@JsonIgnore
+	private FileContainer dishImage;
+
+	@Column(name = "IMAGE_URL")
+	@JsonIgnore
+	private String imageUrl;
+	
+	@Transient
+	private String imageTemporaryUrl;
 }
