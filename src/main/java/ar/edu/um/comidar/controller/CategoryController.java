@@ -91,8 +91,11 @@ public class CategoryController {
 
 		if(!result.hasErrors()) {
 			categoryService.update(category);
-			imageService.deleteImage(category.getImageUrl());
-			imageService.uploadImage(category.getCategoryImage().getFile().getInputStream(), category.getImageUrl());
+			category.setImageUrl("/categories/" + category.getCategoryId() + "." + category.getCategoryImage().getExtension());
+			if(!category.getCategoryImage().getFile().isEmpty()) {
+				imageService.deleteImage(category.getImageUrl());
+				imageService.uploadImage(category.getCategoryImage().getFile().getInputStream(), category.getImageUrl());
+			}
 			redirectAttributes.addFlashAttribute("message","Actualizacion realizada");
 			redirectAttributes.addFlashAttribute("css","alert-success");
 			return "redirect:/admin/category/list";

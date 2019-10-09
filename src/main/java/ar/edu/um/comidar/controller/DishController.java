@@ -104,9 +104,12 @@ public class DishController {
         
 		if(!result.hasErrors()) {
 			dish.setLastUpdateDate(timestamp);
+			dish.setImageUrl("/dishes/" + dish.getDishId() + "." + dish.getDishImage().getExtension());
 			dishService.update(dish);
-			imageService.deleteImage(dish.getImageUrl());
-			imageService.uploadImage(dish.getDishImage().getFile().getInputStream(), dish.getImageUrl());
+			if(!dish.getDishImage().getFile().isEmpty()) {
+				imageService.deleteImage(dish.getImageUrl());
+				imageService.uploadImage(dish.getDishImage().getFile().getInputStream(), dish.getImageUrl());
+			}
 			redirectAttributes.addFlashAttribute("message","Actualizacion realizada");
 			redirectAttributes.addFlashAttribute("css","alert-success");
 			return "redirect:/admin/dish/list";
