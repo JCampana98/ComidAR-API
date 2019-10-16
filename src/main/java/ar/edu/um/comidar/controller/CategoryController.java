@@ -119,10 +119,10 @@ public class CategoryController {
 	}
 
 	@GetMapping("/list/all")
-	public ResponseEntity<List<Category>> sendCategoryList(){
+	public ResponseEntity<List<Category>> sendCategoryList() throws UploadErrorException, DbxException, IOException{
 		List<Category> categoryList = categoryService.findAll();
 		for (Category category : categoryList) {
-			category.setImageTemporaryUrl(category.getImageUrl());
+			category.setImageTemporaryUrl(imageService.getImageURL(category.getImageUrl()));
 		}
 		
 		return new ResponseEntity<>(categoryList,HttpStatus.OK);
