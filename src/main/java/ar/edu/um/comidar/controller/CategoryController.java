@@ -121,10 +121,10 @@ public class CategoryController {
 	@GetMapping("/list/all")
 	public ResponseEntity<List<Category>> sendCategoryList(){
 		List<Category> categoryList = categoryService.findAll();
-		/*for (Category category : categoryList) {
-		**	category.setImageTemporaryUrl(category.getImageUrl());
-		**}
-		*/
+		for (Category category : categoryList) {
+			category.setImageTemporaryUrl(category.getImageUrl());
+		}
+		
 		return new ResponseEntity<>(categoryList,HttpStatus.OK);
 	}
 }

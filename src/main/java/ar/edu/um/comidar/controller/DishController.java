@@ -141,11 +141,9 @@ public class DishController {
 		for (Dish dish : dishList) {
 			if (!dish.getRestaurant().equals(restaurantAux)) {
 				remove.add(dish);
-			} /*else {
-			**
-			**dish.setImageTemporaryUrl(imageService.getImageURL(dish.getImageUrl()));
-			**}
-			*/
+			} else {
+				dish.setImageTemporaryUrl(imageService.getImageURL(dish.getImageUrl()));
+			}
 		}
 		
 		dishList.removeAll(remove);
