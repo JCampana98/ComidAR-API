@@ -29,7 +29,7 @@ import com.dropbox.core.v2.files.UploadErrorException;
 import ar.edu.um.comidar.entity.Dish;
 import ar.edu.um.comidar.entity.Restaurant;
 import ar.edu.um.comidar.services.DishService;
-import ar.edu.um.comidar.services.ImageService;
+import ar.edu.um.comidar.services.DocumentService;
 import ar.edu.um.comidar.services.RestaurantService;
 
 @Controller
@@ -45,7 +45,7 @@ public class DishController {
 	private RestaurantService restaurantService;
 
 	@Autowired
-	private ImageService imageService;
+	private DocumentService imageService;
 	
 	public DishController() {
 		super();
@@ -76,7 +76,9 @@ public class DishController {
 			dish.setLastUpdateDate(timestamp);
 			dishService.create(dish);
 			dish.setImageUrl("/dishes/" + dish.getDishId() + "." + dish.getDishImage().getExtension());
-			imageService.uploadImage(dish.getDishImage().getFile().getInputStream(), dish.getImageUrl());
+			dish.setModelUrl("/dishes/model/" + dish.getDishId() + "." + dish.getDishModel().getExtension());
+			imageService.uploadDocument(dish.getDishImage().getFile().getInputStream(), dish.getImageUrl());
+			imageService.uploadDocument(dish.getDishModel().getFile().getInputStream(), dish.getModelUrl());
 			dishService.update(dish);
 			redirectAttributes.addFlashAttribute("message","Actualizacion realizada");
 			redirectAttributes.addFlashAttribute("css","alert-success");
@@ -105,10 +107,13 @@ public class DishController {
 		if(!result.hasErrors()) {
 			dish.setLastUpdateDate(timestamp);
 			dish.setImageUrl("/dishes/" + dish.getDishId() + "." + dish.getDishImage().getExtension());
+			dish.setModelUrl("/dishes/model/" + dish.getDishId() + "." + dish.getDishModel().getExtension());
 			dishService.update(dish);
 			if(!dish.getDishImage().getFile().isEmpty()) {
-				imageService.deleteImage(dish.getImageUrl());
-				imageService.uploadImage(dish.getDishImage().getFile().getInputStream(), dish.getImageUrl());
+				imageService.deleteDocument(dish.getImageUrl());
+				imageService.deleteDocument(dish.getModelUrl());
+				imageService.uploadDocument(dish.getDishImage().getFile().getInputStream(), dish.getImageUrl());
+				imageService.uploadDocument(dish.getDishModel().getFile().getInputStream(), dish.getModelUrl());
 			}
 			redirectAttributes.addFlashAttribute("message","Actualizacion realizada");
 			redirectAttributes.addFlashAttribute("css","alert-success");
@@ -142,7 +147,8 @@ public class DishController {
 			if (!dish.getRestaurant().equals(restaurantAux)) {
 				remove.add(dish);
 			} else {
-				dish.setImageTemporaryUrl(imageService.getImageURL(dish.getImageUrl()));
+				dish.setImageTemporaryUrl(imageService.getDocumentURL(dish.getImageUrl()));
+				dish.setModelTemporaryUrl(imageService.getDocumentURL(dish.getModelUrl()));
 			}
 		}
 		

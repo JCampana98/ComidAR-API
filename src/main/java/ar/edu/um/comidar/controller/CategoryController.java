@@ -26,7 +26,7 @@ import com.dropbox.core.v2.files.UploadErrorException;
 
 import ar.edu.um.comidar.entity.Category;
 import ar.edu.um.comidar.services.CategoryService;
-import ar.edu.um.comidar.services.ImageService;
+import ar.edu.um.comidar.services.DocumentService;
 
 @Controller
 @RequestMapping("/admin/category")
@@ -38,7 +38,7 @@ public class CategoryController {
 	private CategoryService categoryService;
 	
 	@Autowired
-	private ImageService imageService;
+	private DocumentService imageService;
 
 	public CategoryController() {
 		super();
@@ -66,7 +66,7 @@ public class CategoryController {
 		if(!result.hasErrors()) {
 			categoryService.create(category);
 			category.setImageUrl("/categories/" + category.getCategoryId() + "." + category.getCategoryImage().getExtension());
-			imageService.uploadImage(category.getCategoryImage().getFile().getInputStream(), category.getImageUrl());
+			imageService.uploadDocument(category.getCategoryImage().getFile().getInputStream(), category.getImageUrl());
 			categoryService.update(category);
 			redirectAttributes.addFlashAttribute("message","Actualizacion realizada");
 			redirectAttributes.addFlashAttribute("css","alert-success");
@@ -93,8 +93,8 @@ public class CategoryController {
 			categoryService.update(category);
 			category.setImageUrl("/categories/" + category.getCategoryId() + "." + category.getCategoryImage().getExtension());
 			if(!category.getCategoryImage().getFile().isEmpty()) {
-				imageService.deleteImage(category.getImageUrl());
-				imageService.uploadImage(category.getCategoryImage().getFile().getInputStream(), category.getImageUrl());
+				imageService.deleteDocument(category.getImageUrl());
+				imageService.uploadDocument(category.getCategoryImage().getFile().getInputStream(), category.getImageUrl());
 			}
 			redirectAttributes.addFlashAttribute("message","Actualizacion realizada");
 			redirectAttributes.addFlashAttribute("css","alert-success");
@@ -122,7 +122,7 @@ public class CategoryController {
 	public ResponseEntity<List<Category>> sendCategoryList() throws UploadErrorException, DbxException, IOException{
 		List<Category> categoryList = categoryService.findAll();
 		for (Category category : categoryList) {
-			category.setImageTemporaryUrl(imageService.getImageURL(category.getImageUrl()));
+			category.setImageTemporaryUrl(imageService.getDocumentURL(category.getImageUrl()));
 		}
 		
 		return new ResponseEntity<>(categoryList,HttpStatus.OK);

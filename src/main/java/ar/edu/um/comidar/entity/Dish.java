@@ -79,4 +79,16 @@ public class Dish implements Serializable{
 	
 	@Transient
 	private String imageTemporaryUrl;
+	
+	@Transient
+	@JsonIgnore
+	private FileContainer dishModel;
+	
+	@Column(name = "MODEL_URL")
+	@JsonIgnore
+	private String modelUrl;
+	
+	@Transient
+	private String modelTemporaryUrl;	
+	
 }

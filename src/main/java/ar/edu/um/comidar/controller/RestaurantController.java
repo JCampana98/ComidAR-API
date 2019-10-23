@@ -30,7 +30,7 @@ import ar.edu.um.comidar.entity.Category;
 import ar.edu.um.comidar.entity.Restaurant;
 import ar.edu.um.comidar.services.RestaurantService;
 import ar.edu.um.comidar.services.CategoryService;
-import ar.edu.um.comidar.services.ImageService;
+import ar.edu.um.comidar.services.DocumentService;
 
 @Controller
 @RequestMapping("/admin/restaurant")
@@ -45,7 +45,7 @@ public class RestaurantController {
 	private CategoryService categoryService;
 
 	@Autowired
-	private ImageService imageService;
+	private DocumentService imageService;
 	
 	public RestaurantController() {
 		super();
@@ -79,7 +79,7 @@ public class RestaurantController {
 			restaurant.setLastUpdateDate(timestamp);
 			restaurantService.create(restaurant);
 			restaurant.setImageUrl("/restaurants/" + restaurant.getRestaurantId() + "." + restaurant.getRestaurantImage().getExtension());
-			imageService.uploadImage(restaurant.getRestaurantImage().getFile().getInputStream(), restaurant.getImageUrl());
+			imageService.uploadDocument(restaurant.getRestaurantImage().getFile().getInputStream(), restaurant.getImageUrl());
 			restaurant.setRestaurantId(restaurant.getRestaurantId());
 			restaurantService.update(restaurant);
 			redirectAttributes.addFlashAttribute("message","Actualizacion realizada");
@@ -112,8 +112,8 @@ public class RestaurantController {
 			restaurant.setImageUrl("/restaurants/" + restaurant.getRestaurantId() + "." + restaurant.getRestaurantImage().getExtension());
 			restaurant.setLastUpdateDate(timestamp);
 			if(!restaurant.getRestaurantImage().getFile().isEmpty()) {
-				imageService.deleteImage(restaurant.getImageUrl());
-				imageService.uploadImage(restaurant.getRestaurantImage().getFile().getInputStream(), restaurant.getImageUrl());
+				imageService.deleteDocument(restaurant.getImageUrl());
+				imageService.uploadDocument(restaurant.getRestaurantImage().getFile().getInputStream(), restaurant.getImageUrl());
 			}
 			restaurantService.update(restaurant);
 			redirectAttributes.addFlashAttribute("message","Actualizacion realizada");
@@ -142,7 +142,7 @@ public class RestaurantController {
 	public ResponseEntity<List<Restaurant>> sendRestaurantList() throws UploadErrorException, DbxException, IOException{
 		List<Restaurant> restaurantList = restaurantService.findAll();
 		for (Restaurant restaurant : restaurantList) {
-			restaurant.setImageTemporaryUrl(imageService.getImageURL(restaurant.getImageUrl()));
+			restaurant.setImageTemporaryUrl(imageService.getDocumentURL(restaurant.getImageUrl()));
 		}
 		return new ResponseEntity<>(restaurantList,HttpStatus.OK);
 	}
@@ -155,7 +155,7 @@ public class RestaurantController {
 		Category categoryAux = categoryService.findById(Long.valueOf(id));
 		for (Restaurant restaurant : restaurantList) {
 			if(restaurant.getCategoryList().contains(categoryAux)) {
-				restaurant.setImageTemporaryUrl(imageService.getImageURL(restaurant.getImageUrl()));	
+				restaurant.setImageTemporaryUrl(imageService.getDocumentURL(restaurant.getImageUrl()));	
 			} else {
 				toRemove.add(restaurant);
 			}
