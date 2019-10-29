@@ -76,7 +76,7 @@ public class DishController {
 			dish.setLastUpdateDate(timestamp);
 			dishService.create(dish);
 			dish.setImageUrl("/dishes/" + dish.getDishId() + "." + dish.getDishImage().getExtension());
-			dish.setModelUrl("/dishes/model/" + dish.getDishId() + "." + dish.getDishModel().getExtension());
+			dish.setModelUrl("/dishes/models/" + dish.getDishId() + "." + dish.getDishModel().getExtension());
 			imageService.uploadDocument(dish.getDishImage().getFile().getInputStream(), dish.getImageUrl());
 			imageService.uploadDocument(dish.getDishModel().getFile().getInputStream(), dish.getModelUrl());
 			dishService.update(dish);
@@ -107,7 +107,7 @@ public class DishController {
 		if(!result.hasErrors()) {
 			dish.setLastUpdateDate(timestamp);
 			dish.setImageUrl("/dishes/" + dish.getDishId() + "." + dish.getDishImage().getExtension());
-			dish.setModelUrl("/dishes/model/" + dish.getDishId() + "." + dish.getDishModel().getExtension());
+			dish.setModelUrl("/dishes/models/" + dish.getDishId() + "." + dish.getDishModel().getExtension());
 			dishService.update(dish);
 			if(!dish.getDishImage().getFile().isEmpty()) {
 				imageService.deleteDocument(dish.getImageUrl());
@@ -148,7 +148,7 @@ public class DishController {
 				remove.add(dish);
 			} else {
 				dish.setImageTemporaryUrl(imageService.getDocumentURL(dish.getImageUrl()));
-				dish.setModelTemporaryUrl(imageService.getDocumentURL(dish.getModelUrl()));
+				//dish.setModelTemporaryUrl(imageService.getDocumentURL(dish.getModelUrl()));
 			}
 		}
 		
