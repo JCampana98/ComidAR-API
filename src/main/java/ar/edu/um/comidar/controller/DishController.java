@@ -148,7 +148,7 @@ public class DishController {
 				remove.add(dish);
 			} else {
 				dish.setImageTemporaryUrl(imageService.getDocumentURL(dish.getImageUrl()));
-				//dish.setModelTemporaryUrl(imageService.getDocumentURL(dish.getModelUrl()));
+				dish.setModelTemporaryUrl(imageService.getDocumentURL(dish.getModelUrl()));
 			}
 		}
 		
