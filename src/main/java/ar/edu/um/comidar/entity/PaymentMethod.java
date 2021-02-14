@@ -29,7 +29,7 @@ public class PaymentMethod implements Serializable{
 	private static final long serialVersionUID = 1688183184176746662L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="PAYMENT_METHOD_ID")
 	private Long paymentMethodId;
 
